@@ -1,62 +1,48 @@
-import keras.optimizers
-from keras.models import Sequential
-from keras.layers import Dense
-
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import root_mean_squared_error
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import root_mean_squared_error, accuracy_score
 from math import sqrt
-import pandas as pd
 import matplotlib.pyplot as plt
-
-df = pd.read_excel("restaurant_revenue.xlsx")
-data = []
-for a in df["Cuisine_Type"]:
-    if a not in data:
-        data.insert(len(data), a)
-n = 0
-for a in df["Cuisine_Type"]:
-    x = 1
-    for b in data:
-        if a == b:
-            df.loc[n, "Cuisine_Type"] = x
-
-            n += 1
-            break
-        x += 1
-X = df.drop("Monthly_Revenue", axis=1)
-y = df["Monthly_Revenue"]
+import pandas as pd
 
 
+df = pd.read_excel("dataset.xlsx")
 
-Scaler = StandardScaler()
-X_scaled = Scaler.fit_transform(X)
+# One-hot encode categorical variables
+#df = pd.get_dummies(df, columns=['Cuisine_Type'])
 
-X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
-print(y_test)
-
-
-
-
-model = Sequential()
-model.add(Dense(64, activation='relu', input_dim=X_train.shape[1]))
-model.add(Dense(32, activation='relu'))
-model.add(Dense(1, activation='linear'))
-
-model.compile(optimizer=keras.optimizers.Adam(0.01), loss="mean_squared_error")
-history = model.fit(X_train, y_train, epochs= 10, batch_size=32, validation_split = 0.1)
-plt.plot(history.history['loss'], label = 'training loss')
-plt.plot(history.history['val_loss'], label = 'validation loss')
-plt.xlabel("epoch")
-plt.ylabel("loss")
-plt.title("training and validation loss")
+# Split the dataset into features (X) and target variable (y)
+X = df.drop("pendapatan", axis=1)
+X = X.drop("date", axis=1)
+y = df["pendapatan"]
+plt.plot(y)
 plt.show()
+print(df)
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, shuffle=True)
 
-y_pred = model.predict(X_test)
-print(y_test)
-print("prediction:")
-print(y_pred)
+# Initialize the RandomForestRegressor
 
-rmse = root_mean_squared_error(y_test, y_pred)
-print(f"rmse: {rmse}")
+rf_regressor = RandomForestRegressor(n_estimators=500, random_state=42)
 
+    # Train the RandomForestRegressor
+
+
+rf_regressor.fit(X_train, y_train)
+
+    # Make predictions on the test set
+y_pred = rf_regressor.predict(X_test)
+
+
+
+    # Evaluate the model using Mean Squared Error (MSE)
+
+#rmse = root_mean_squared_error(y_test, y_pred)
+
+
+#import matplotlib.pyplot as plt
+#plt.plot(range(1, 500), rmses)
+#plt.xlabel("n_estimator")
+#plt.ylabel("RMSE")
+#plt.show()
+#print("Root Mean Squared Error:", rmse)
