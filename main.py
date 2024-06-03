@@ -60,7 +60,7 @@ def submit():
 
     month = tomorrow.month
     day = tomorrow.day
-    print(year, month, day)
+
 
     start = datetime(year, month, day)
     end = datetime(year, month, day, 23, 59, 59)
@@ -97,7 +97,7 @@ def submit():
         weather_data = Daily(senimanmiekari, start, end)
         weather_data = weather_data.fetch()
         weather_data = weather_data.iloc[:, 0:4]
-        print(weather_data)
+        
         #X = df.drop("pendapatan", axis=1)
         #X = X.drop("date", axis=1)
         X = weather_data
