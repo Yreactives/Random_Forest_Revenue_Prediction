@@ -97,7 +97,7 @@ def submit():
         weather_data = Daily(senimanmiekari, start, end)
         weather_data = weather_data.fetch()
         weather_data = weather_data.iloc[:, 0:4]
-        
+
         #X = df.drop("pendapatan", axis=1)
         #X = X.drop("date", axis=1)
         X = weather_data
