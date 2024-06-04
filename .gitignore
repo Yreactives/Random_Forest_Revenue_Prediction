@@ -1,2 +1,8 @@
 *.xlsx
 Distribution/
+*.pkl
+model.py
+randomforest.py
+test_random_forest.py
+weather.py
+whitebox.py
