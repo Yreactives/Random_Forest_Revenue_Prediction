@@ -90,9 +90,9 @@ def submit():
     pred_list = []
     for i in range(6):
         df = pd.read_excel(path, sheet_name=i)
-
+        timestamps = pd.to_datetime(df['date'])
         today = datetime.now() - timedelta(1)
-        start = datetime(2024, 1, 1)
+        start = datetime(timestamps[0].year, timestamps[0].month, timestamps[0].day)
         end = datetime(2024, 1, 1) + timedelta(len(df)-1)
         weather_data = Daily(senimanmiekari, start, end)
         weather_data = weather_data.fetch()
