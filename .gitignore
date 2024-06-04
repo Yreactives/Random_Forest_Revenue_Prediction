@@ -1,6 +1,2 @@
 *.xlsx
-Distribution/build/
-Distribution/dist/main/
-Distribution/functions.py
-Distribution/main.py
-Distribution/main.spec
+Distribution/
