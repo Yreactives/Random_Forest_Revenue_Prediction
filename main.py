@@ -100,7 +100,7 @@ def submit():
     tomorrow = datetime.now() + timedelta(1)
 
     summary = pd.DataFrame({
-        'Date (dd-mm-yyyy)': [f"{tomorrow.day} - {tomorrow.month} - {tomorrow.year}" for _ in range(6)],
+        'Date (dd-mm-yyyy)': [f"{tomorrow.day} - {tomorrow.month} - {tomorrow.year}" for _ in range(len(cuisine_list))],
         'Cuisine': cuisine_list,
         'Prediction (Rp.)': pred_list
     })
